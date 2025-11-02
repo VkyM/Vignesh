@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vignesh M - DevOps Engineer Resume</title>
+    <style>
+        :root {
+            --color-background: #fcfcf9;
+            --color-surface: #fffffd;
+            --color-text: #13343b;
+            --color-text-secondary: #626c71;
+            --color-primary: #21808d;
+            --color-border: rgba(94, 82, 64, 0.2);
+            --color-card-border: rgba(94, 82, 64, 0.12);
+            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            --radius-base: 8px;
+            --radius-lg: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background: #1f2121;
+                --color-surface: #262828;
+                --color-text: #f5f5f5;
+                --color-text-secondary: rgba(167, 169, 169, 0.7);
+                --color-primary: #32b8c6;
+                --color-border: rgba(119, 124, 124, 0.3);
+                --color-card-border: rgba(119, 124, 124, 0.2);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding: var(--space-32) var(--space-16);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--color-surface);
+            padding: var(--space-32);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-32);
+            padding-bottom: var(--space-24);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-12);
+            letter-spacing: -0.01em;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--space-16);
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-top: var(--space-12);
+        }
+
+        .contact-info a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.7;
+        }
+
+        .section {
+            margin-bottom: var(--space-32);
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-16);
+            padding-bottom: var(--space-8);
+            border-bottom: 2px solid var(--color-primary);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-8);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-8);
+            flex-wrap: wrap;
+            gap: var(--space-8);
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .job-date {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .company {
+            color: var(--color-primary);
+            font-weight: 500;
+            margin-bottom: var(--space-8);
+        }
+
+        ul {
+            margin-left: var(--space-20);
+            margin-bottom: var(--space-16);
+        }
+
+        li {
+            margin-bottom: var(--space-8);
+            color: var(--color-text);
+        }
+
+        p {
+            margin-bottom: var(--space-16);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-8);
+            margin-bottom: var(--space-16);
+        }
+
+        .skill-tag {
+            background-color: rgba(33, 128, 141, 0.1);
+            color: var(--color-primary);
+            padding: var(--space-8) var(--space-12);
+            border-radius: var(--radius-base);
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(33, 128, 141, 0.2);
+        }
+
+        .education-item, .cert-item {
+            margin-bottom: var(--space-16);
+        }
+
+        .cert-item:last-child, .education-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .print-btn {
+            display: block;
+            margin: var(--space-24) auto;
+            padding: var(--space-12) var(--space-32);
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .print-btn:hover {
+            opacity: 0.85;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background-color: white;
+            }
+
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+
+            .print-btn {
+                display: none;
+            }
+
+            .contact-info a {
+                color: #21808d;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-24);
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .job-header {
+                flex-direction: column;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>VIGNESH M</h1>
+            <p>Tenkasi, Tamil Nadu, India</p>
+            <div class="contact-info">
+                <span>Email: vignesh.cse@outlook.com</span>
+                <span>Mobile: +91-9444390688</span>
+                <a href="https://linkedin.com/in/vky-devops" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/VkyM" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Professional Summary</h2>
+            <p>DevOps Engineer with 5+ years of experience in cloud infrastructure automation, CI/CD, and container orchestration in AWS and hybrid environments. Adept at deploying scalable solutions using Kubernetes, Terraform, Jenkins, and infrastructure as code best practices. Open to new opportunities in DevOps, SRE, or Cloud Engineering roles.</p>
+        </div>
+
+        <div class="section">
+            <h2>Skills</h2>
+            <div class="skills">
+                <span class="skill-tag">AWS (GameLift, Route53, EC2, S3, RDS)</span>
+                <span class="skill-tag">Azure</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">Terraform</span>
+                <span class="skill-tag">Jenkins</span>
+                <span class="skill-tag">CI/CD</span>
+                <span class="skill-tag">GitHub Actions</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Linux</span>
+                <span class="skill-tag">Ansible</span>
+                <span class="skill-tag">System Administration</span>
+                <span class="skill-tag">Automation</span>
+                <span class="skill-tag">Prometheus</span>
+                <span class="skill-tag">Grafana</span>
+                <span class="skill-tag">Zabbix</span>
+                <span class="skill-tag">CloudWatch</span>
+                <span class="skill-tag">Cloud Security</span>
+                <span class="skill-tag">Bash</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Jira Admin</span>
+                <span class="skill-tag">MFA</span>
+                <span class="skill-tag">DHCP</span>
+                <span class="skill-tag">RADIUS</span>
+                <span class="skill-tag">Sophos Firewall</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Experience</h2>
+            
+            <div class="job-header">
+                <div>
+                    <div class="job-title">DevOps Engineer</div>
+                    <div class="company">ChainScript Labs Pvt. Ltd.</div>
+                </div>
+                <div class="job-date">May 2025–Present | Tenkasi, Tamil Nadu</div>
+            </div>
+            <ul>
+                <li>Architected and deployed Kubernetes clusters in AWS to support microservices, achieving 99.9% uptime</li>
+                <li>Developed and maintained CI/CD pipelines with Jenkins and GitHub Actions, reducing deployment time by 60%</li>
+                <li>Automated infrastructure provisioning using Terraform, managing 100+ cloud resources</li>
+                <li>Implemented monitoring and alerting via Prometheus and Grafana, reducing mean time to recovery by 40%</li>
+                <li>Created and managed custom rule sets for Sophos firewall, prioritizing security and traffic flow control</li>
+                <li>Configured AWS GameLift services for scalable multiplayer game infrastructure</li>
+                <li>Automated email notifications for new node additions in Kubernetes clusters</li>
+                <li>Designed and implemented CI/CD pipelines for Kubernetes clusters, automating build, test, and deployment workflows</li>
+            </ul>
+
+            <div class="job-header">
+                <div>
+                    <div class="job-title">System Administrator</div>
+                    <div class="company">VisAI Labs</div>
+                </div>
+                <div class="job-date">Mar 2023–May 2025 | Chennai, Tamil Nadu</div>
+            </div>
+            <ul>
+                <li>Managed Linux server infrastructure and optimized AWS resources (EC2, S3, RDS, Route53)</li>
+                <li>Automated backup and disaster recovery solutions; developed scripts in Bash and Python</li>
+                <li>Deployed DHCP server for 25 VLANs within Docker containers; implemented MAC address binding for client management</li>
+                <li>Integrated RADIUS for network access control, ensuring only registered MAC addresses can join the network</li>
+                <li>Implemented monitoring with CloudWatch and security policies; collaborated on deployment processes</li>
+            </ul>
+
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Support Engineer</div>
+                    <div class="company">CYBERNEXA Infotech</div>
+                </div>
+                <div class="job-date">Jul 2021–Aug 2022 | Chennai, Tamil Nadu</div>
+            </div>
+            <ul>
+                <li>Provided Linux-based technical support for enterprise clients; reduced ticket resolution time by 35%</li>
+                <li>Developed automation scripts in Bash and C</li>
+                <li>Implemented monitoring solutions using Zabbix; deployed Zabbix server for enterprise monitoring and robust alerting</li>
+                <li>Set up jumphost server to secure access to production environments</li>
+                <li>Automated email triggers for backup creation, ensuring reliable notification workflows</li>
+            </ul>
+
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Technical Support Engineer</div>
+                    <div class="company">Sigma Consultants</div>
+                </div>
+                <div class="job-date">Jul 2019–Jun 2021 | Bengaluru, Karnataka</div>
+            </div>
+            <ul>
+                <li>Supported Linux infrastructure and managed high-availability clusters using Apache and CentOS</li>
+                <li>Performed upgrades, capacity planning, and security hardening</li>
+                <li>Troubleshot system issues and documented configurations and procedures</li>
+                <li>Developed a PHP-based application enabling automatic website generation from Notepad commands</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Projects &amp; Achievements</h2>
+            <ul>
+                <li>Developed PHP tool for dynamic web generation from Notepad command entries (Sigma Consultants)</li>
+                <li>Zabbix server deployment, jumphost server, backup alert automation (CYBERNEXA Infotech)</li>
+                <li>DHCP for 25 VLANs in Docker with MAC binding and RADIUS integration (VisAI Labs)</li>
+                <li>Sophos firewall rule management, AWS GameLift setup, automated email alerts for Kubernetes node additions, CI/CD for Kubernetes clusters (ChainScript Labs)</li>
+                <li>Automated multi-cloud deployments using Terraform, improving provisioning efficiency by 50%</li>
+                <li>Developed centralized monitoring dashboards with Prometheus and Grafana</li>
+                <li>Active contributor to DevOps open source projects on GitHub (automation scripts, infra templates)</li>
+                <li>Received Employee of the Month at VisAI Labs for outstanding performance</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Education</h2>
+            <div class="education-item">
+                <h3>Bachelor of Engineering, Computer Science</h3>
+                <p>Govt College of Engineering Bargur — 2015–2018</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Certifications</h2>
+            <div class="cert-item">
+                <h3>Red Hat Certified System Administrator (RHCSA)</h3>
+                <p>Red Hat, 2024–2027</p>
+            </div>
+            <div class="cert-item">
+                <h3>Kubernetes for the Absolute Beginners</h3>
+                <p>KodeKloud, 2024</p>
+            </div>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">Download/Print as PDF</button>
+    </div>
+</body>
+</html>
