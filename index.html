@@ -3,398 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vignesh M - DevOps Engineer Resume</title>
-    <style>
-        :root {
-            --color-background: #fcfcf9;
-            --color-surface: #fffffd;
-            --color-text: #13343b;
-            --color-text-secondary: #626c71;
-            --color-primary: #21808d;
-            --color-border: rgba(94, 82, 64, 0.2);
-            --color-card-border: rgba(94, 82, 64, 0.12);
-            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --space-8: 8px;
-            --space-12: 12px;
-            --space-16: 16px;
-            --space-20: 20px;
-            --space-24: 24px;
-            --space-32: 32px;
-            --radius-base: 8px;
-            --radius-lg: 12px;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --color-background: #1f2121;
-                --color-surface: #262828;
-                --color-text: #f5f5f5;
-                --color-text-secondary: rgba(167, 169, 169, 0.7);
-                --color-primary: #32b8c6;
-                --color-border: rgba(119, 124, 124, 0.3);
-                --color-card-border: rgba(119, 124, 124, 0.2);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-family-base);
-            background-color: var(--color-background);
-            color: var(--color-text);
-            line-height: 1.6;
-            padding: var(--space-32) var(--space-16);
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: var(--color-surface);
-            padding: var(--space-32);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-card-border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: var(--space-32);
-            padding-bottom: var(--space-24);
-            border-bottom: 2px solid var(--color-border);
-        }
-
-        h1 {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: var(--space-12);
-            letter-spacing: -0.01em;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: var(--space-16);
-            font-size: 14px;
-            color: var(--color-text-secondary);
-            margin-top: var(--space-12);
-        }
-
-        .contact-info a {
-            color: var(--color-primary);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .contact-info a:hover {
-            opacity: 0.7;
-        }
-
-        .section {
-            margin-bottom: var(--space-32);
-        }
-
-        h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: var(--space-16);
-            padding-bottom: var(--space-8);
-            border-bottom: 2px solid var(--color-primary);
-            letter-spacing: -0.01em;
-        }
-
-        h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: var(--space-8);
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--space-8);
-            flex-wrap: wrap;
-            gap: var(--space-8);
-        }
-
-        .job-title {
-            font-weight: 600;
-            color: var(--color-text);
-        }
-
-        .job-date {
-            color: var(--color-text-secondary);
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        .company {
-            color: var(--color-primary);
-            font-weight: 500;
-            margin-bottom: var(--space-8);
-        }
-
-        ul {
-            margin-left: var(--space-20);
-            margin-bottom: var(--space-16);
-        }
-
-        li {
-            margin-bottom: var(--space-8);
-            color: var(--color-text);
-        }
-
-        p {
-            margin-bottom: var(--space-16);
-            color: var(--color-text);
-            line-height: 1.6;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-8);
-            margin-bottom: var(--space-16);
-        }
-
-        .skill-tag {
-            background-color: rgba(33, 128, 141, 0.1);
-            color: var(--color-primary);
-            padding: var(--space-8) var(--space-12);
-            border-radius: var(--radius-base);
-            font-size: 13px;
-            font-weight: 500;
-            border: 1px solid rgba(33, 128, 141, 0.2);
-        }
-
-        .education-item, .cert-item {
-            margin-bottom: var(--space-16);
-        }
-
-        .cert-item:last-child, .education-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .print-btn {
-            display: block;
-            margin: var(--space-24) auto;
-            padding: var(--space-12) var(--space-32);
-            background-color: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-base);
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .print-btn:hover {
-            opacity: 0.85;
-        }
-
-        @media print {
-            body {
-                padding: 0;
-                background-color: white;
-            }
-
-            .container {
-                box-shadow: none;
-                border: none;
-                padding: 0;
-            }
-
-            .print-btn {
-                display: none;
-            }
-
-            .contact-info a {
-                color: #21808d;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: var(--space-24);
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            .job-header {
-                flex-direction: column;
-            }
-
-            .contact-info {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+    <title>DevOps Engineer - Professional Resume</title>
+    <meta name="description" content="Experienced DevOps Engineer specializing in cloud infrastructure, CI/CD pipelines, containerization, and automation.">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>VIGNESH M</h1>
-            <p>Tenkasi, Tamil Nadu, India</p>
-            <div class="contact-info">
-                <span>Email: vignesh.cse@outlook.com</span>
-                <span>Mobile: +91-9444390688</span>
-                <a href="https://linkedin.com/in/vky-devops" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://github.com/VkyM" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Professional Summary</h2>
-            <p>DevOps Engineer with 5+ years of experience in cloud infrastructure automation, CI/CD, and container orchestration in AWS and hybrid environments. Adept at deploying scalable solutions using Kubernetes, Terraform, Jenkins, and infrastructure as code best practices. Open to new opportunities in DevOps, SRE, or Cloud Engineering roles.</p>
-        </div>
-
-        <div class="section">
-            <h2>Skills</h2>
-            <div class="skills">
-                <span class="skill-tag">AWS (GameLift, Route53, EC2, S3, RDS)</span>
-                <span class="skill-tag">Azure</span>
-                <span class="skill-tag">Kubernetes</span>
-                <span class="skill-tag">Terraform</span>
-                <span class="skill-tag">Jenkins</span>
-                <span class="skill-tag">CI/CD</span>
-                <span class="skill-tag">GitHub Actions</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">Linux</span>
-                <span class="skill-tag">Ansible</span>
-                <span class="skill-tag">System Administration</span>
-                <span class="skill-tag">Automation</span>
-                <span class="skill-tag">Prometheus</span>
-                <span class="skill-tag">Grafana</span>
-                <span class="skill-tag">Zabbix</span>
-                <span class="skill-tag">CloudWatch</span>
-                <span class="skill-tag">Cloud Security</span>
-                <span class="skill-tag">Bash</span>
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">Jira Admin</span>
-                <span class="skill-tag">MFA</span>
-                <span class="skill-tag">DHCP</span>
-                <span class="skill-tag">RADIUS</span>
-                <span class="skill-tag">Sophos Firewall</span>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Experience</h2>
-            
-            <div class="job-header">
-                <div>
-                    <div class="job-title">DevOps Engineer</div>
-                    <div class="company">ChainScript Labs Pvt. Ltd.</div>
-                </div>
-                <div class="job-date">May 2025–Present | Tenkasi, Tamil Nadu</div>
-            </div>
-            <ul>
-                <li>Architected and deployed Kubernetes clusters in AWS to support microservices, achieving 99.9% uptime</li>
-                <li>Developed and maintained CI/CD pipelines with Jenkins and GitHub Actions, reducing deployment time by 60%</li>
-                <li>Automated infrastructure provisioning using Terraform, managing 100+ cloud resources</li>
-                <li>Implemented monitoring and alerting via Prometheus and Grafana, reducing mean time to recovery by 40%</li>
-                <li>Created and managed custom rule sets for Sophos firewall, prioritizing security and traffic flow control</li>
-                <li>Configured AWS GameLift services for scalable multiplayer game infrastructure</li>
-                <li>Automated email notifications for new node additions in Kubernetes clusters</li>
-                <li>Designed and implemented CI/CD pipelines for Kubernetes clusters, automating build, test, and deployment workflows</li>
-            </ul>
-
-            <div class="job-header">
-                <div>
-                    <div class="job-title">System Administrator</div>
-                    <div class="company">VisAI Labs</div>
-                </div>
-                <div class="job-date">Mar 2023–May 2025 | Chennai, Tamil Nadu</div>
-            </div>
-            <ul>
-                <li>Managed Linux server infrastructure and optimized AWS resources (EC2, S3, RDS, Route53)</li>
-                <li>Automated backup and disaster recovery solutions; developed scripts in Bash and Python</li>
-                <li>Deployed DHCP server for 25 VLANs within Docker containers; implemented MAC address binding for client management</li>
-                <li>Integrated RADIUS for network access control, ensuring only registered MAC addresses can join the network</li>
-                <li>Implemented monitoring with CloudWatch and security policies; collaborated on deployment processes</li>
-            </ul>
-
-            <div class="job-header">
-                <div>
-                    <div class="job-title">Support Engineer</div>
-                    <div class="company">CYBERNEXA Infotech</div>
-                </div>
-                <div class="job-date">Jul 2021–Aug 2022 | Chennai, Tamil Nadu</div>
-            </div>
-            <ul>
-                <li>Provided Linux-based technical support for enterprise clients; reduced ticket resolution time by 35%</li>
-                <li>Developed automation scripts in Bash and C</li>
-                <li>Implemented monitoring solutions using Zabbix; deployed Zabbix server for enterprise monitoring and robust alerting</li>
-                <li>Set up jumphost server to secure access to production environments</li>
-                <li>Automated email triggers for backup creation, ensuring reliable notification workflows</li>
-            </ul>
-
-            <div class="job-header">
-                <div>
-                    <div class="job-title">Technical Support Engineer</div>
-                    <div class="company">Sigma Consultants</div>
-                </div>
-                <div class="job-date">Jul 2019–Jun 2021 | Bengaluru, Karnataka</div>
-            </div>
-            <ul>
-                <li>Supported Linux infrastructure and managed high-availability clusters using Apache and CentOS</li>
-                <li>Performed upgrades, capacity planning, and security hardening</li>
-                <li>Troubleshot system issues and documented configurations and procedures</li>
-                <li>Developed a PHP-based application enabling automatic website generation from Notepad commands</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Projects &amp; Achievements</h2>
-            <ul>
-                <li>Developed PHP tool for dynamic web generation from Notepad command entries (Sigma Consultants)</li>
-                <li>Zabbix server deployment, jumphost server, backup alert automation (CYBERNEXA Infotech)</li>
-                <li>DHCP for 25 VLANs in Docker with MAC binding and RADIUS integration (VisAI Labs)</li>
-                <li>Sophos firewall rule management, AWS GameLift setup, automated email alerts for Kubernetes node additions, CI/CD for Kubernetes clusters (ChainScript Labs)</li>
-                <li>Automated multi-cloud deployments using Terraform, improving provisioning efficiency by 50%</li>
-                <li>Developed centralized monitoring dashboards with Prometheus and Grafana</li>
-                <li>Active contributor to DevOps open source projects on GitHub (automation scripts, infra templates)</li>
-                <li>Received Employee of the Month at VisAI Labs for outstanding performance</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Education</h2>
-            <div class="education-item">
-                <h3>Bachelor of Engineering, Computer Science</h3>
-                <p>Govt College of Engineering Bargur — 2015–2018</p>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Certifications</h2>
-            <div class="cert-item">
-                <h3>Red Hat Certified System Administrator (RHCSA)</h3>
-                <p>Red Hat, 2024–2027</p>
-            </div>
-            <div class="cert-item">
-                <h3>Kubernetes for the Absolute Beginners</h3>
-                <p>KodeKloud, 2024</p>
-            </div>
-        </div>
-
-        <button class="print-btn" onclick="window.print()">Download/Print as PDF</button>
+    <!-- Geometric Background Pattern -->
+    <div class="geometric-pattern">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="logo"></div>
+        <nav class="nav">
+            <button class="nav-icon active" data-section="about" title="ABOUT">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="tooltip">ABOUT</span>
+            </button>
+            <button class="nav-icon" data-section="resume" title="RESUME">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span class="tooltip">RESUME</span>
+            </button>
+            <button class="nav-icon" data-section="portfolio" title="PORTFOLIO">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span class="tooltip">PORTFOLIO</span>
+            </button>
+            
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-avatar"><img src="vignesh.jpg" class="profile-avatar" alt="Profile Avatar" /></div>
+                <div class="profile-info">
+		    <h1 class="profile-name">Vignesh M</h1>
+                    <h3 class="profile-name">DevOps Engineer</h3>
+                    <p class="profile-title">Cloud Infrastructure & Automation Specialist</p>
+                </div>
+                <div class="social-links">
+                        <a href="https://github.com/VkyM" class="social-link" target="_blank" rel="noopener">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/vky-devops/" class="social-link" target="_blank" rel="noopener">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                            <span>vignesh.cse@outlook.com</span>
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <section id="about" class="section active">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <p>I'm a passionate DevOps Engineer with over 5 years of experience in designing, implementing, and managing cloud infrastructure and CI/CD pipelines. I specialize in automating deployments, optimizing system performance, and ensuring high availability of applications.</p>
+                    <p>With expertise in AWS, Docker, Kubernetes, and Infrastructure as Code (IaC), I help organizations streamline their development workflows and achieve faster time-to-market. I hold multiple cloud certifications and continuously stay updated with the latest DevOps practices and tools.</p>
+                </div>
+                <h3 class="subsection-title">What I'm Doing</h3>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                        </div>
+                        <h4>Cloud Infrastructure</h4>
+                        <p>Designing and managing scalable cloud solutions on AWS, Azure, and GCP</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h4>CI/CD Automation</h4>
+                        <p>Building automated pipelines with Jenkins, GitLab CI, and GitHub Actions</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h4>Container Orchestration</h4>
+                        <p>Managing containerized applications with Docker and Kubernetes</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h4>Security & Monitoring</h4>
+                        <p>Implementing security best practices and comprehensive monitoring solutions</p>
+                    </div>
+                </div>
+            </section>
+
+            
+
+		<h3 class="subsection-title">Skills</h3>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <span class="skill-badge">AWS</span>
+                        <span class="skill-badge">Azure</span>
+                        <span class="skill-badge">GCP</span>
+			<span class="skill-badge">Docker</span>
+                        <span class="skill-badge">Kubernetes</span>
+                        <span class="skill-badge">Helm</span>
+			<span class="skill-badge">Jenkins</span>
+                        <span class="skill-badge">GitLab CI</span>
+                        <span class="skill-badge">GitHub Actions</span>
+			<span class="skill-badge">Terraform</span>
+                        <span class="skill-badge">Ansible</span>                      
+                   
+                    </div>
+                   
+                </div>
+                
+                <h3 class="subsection-title">Experience</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">May 2025–Present | Tenkasi, Tamil Nadu</div>
+                        <div class="timeline-content">
+                            <h4>DevOps Engineer</h4>
+                            <p class="company">Chainscript Labs Pvt Ltd</p>
+                            <p>Built and managed AWS Kubernetes infrastructure with 99.9% uptime, automated CI/CD pipelines, and monitoring systems that reduced deployment time by 60% and MTTR by 40%.
+
+Enhanced security and operations by configuring Sophos firewall rules and automating notifications for Kubernetes cluster events.
+
+Implemented scalable backend systems, including AWS GameLift setup for multiplayer gaming infrastructure and end-to-end Kubernetes deployment workflows. failures.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Mar 2023–May 2025 | Chennai, Tamil Nadu</div>
+                        <div class="timeline-content">
+                            <h4>System Administrator</h4>
+                            <p class="company">VisAi Labs Pvt Ltd.</p>
+                            <p>Managed Linux and AWS infrastructure, optimizing EC2, S3, RDS, Route53, and implementing monitoring, security policies, and automated backups.
+
+Automated operations using Bash/Python scripts and deployed Docker-based DHCP servers for 25 VLANs with MAC address binding.
+
+Strengthened network security by integrating RADIUS for access control and collaborating on deployment and operational processes.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jul 2021–Aug 2022 | Chennai, Tamil Nadu</div>
+                        <div class="timeline-content">
+                            <h4>Support Engineer</h4>
+                            <p class="company">CYBERNEXA Infotech</p>
+                            <p>Delivered Linux technical support, cutting ticket resolution time by 35%.
+
+Created automation scripts in Bash and C, including backup email notifications.
+
+Deployed Zabbix monitoring and a secure jumphost for streamlined production access.</p>
+                        </div>
+                    </div>
+		    <div class="timeline-item">
+                        <div class="timeline-date">Jul 2019–Jun 2021 | Bengaluru, Karnataka</div>
+                        <div class="timeline-content">
+                            <h4>Technical Support Engineer</h4>
+                            <p class="company">Sigma Consultants</p>
+                            <p>Supported Linux infrastructure and managed high-availability clusters using Apache and CentOS
+Performed upgrades, capacity planning, and security hardening
+Troubleshot system issues and documented configurations and procedures</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h3 class="subsection-title">Education</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2014 - 2018</div>
+                        <div class="timeline-content">
+                            <h4>Bachelor of Science in Computer Science</h4>
+                            <p class="company">University of Technology</p>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </section>
+
+            <!-- Portfolio Section -->
+            <section id="portfolio" class="section">
+                <h2 class="section-title">Portfolio</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-card">
+                        <h4>Cloud Migration Project</h4>
+                        <p>Migrated legacy infrastructure to AWS, implementing auto-scaling and high availability</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="#" class="btn-outline">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                                    <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                                </svg>
+                                Code
+                            </a>
+                            <a href="#" class="btn-outline">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                Demo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <h4>CI/CD Pipeline Implementation</h4>
+                        <p>Built comprehensive CI/CD pipeline with automated testing and deployment</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Jenkins</span>
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">GitLab</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="#" class="btn-outline">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                                    <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                                </svg>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <h4>Infrastructure as Code</h4>
+                        <p>Developed modular Terraform configurations for multi-region deployments</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Python</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="#" class="btn-outline">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                                    <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                                </svg>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="section">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact-content">
+                    <p>Feel free to reach out to me for any opportunities, collaborations, or questions. I'm always open to discussing new projects and ideas.</p>
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
