@@ -187,7 +187,7 @@ body {
     margin-bottom: 2rem;
     box-shadow: var(--shadow-card);
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
     gap: 2rem;
     align-items: start;
 }
@@ -213,6 +213,28 @@ body {
 
 .profile-details {
     grid-column: 2;
+}
+
+.profile-certs {
+    text-align: left;
+}
+
+.cert-title {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.cert-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.cert-list li {
+    margin-bottom: 0.3rem;
 }
 
 .skills-tags {
