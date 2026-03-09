@@ -1,0 +1,58 @@
+name: Release Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Select version increment"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get latest tag
+        id: tag
+        run: |
+          git fetch --tags
+          latest=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "LATEST_TAG=$latest" >> $GITHUB_ENV
+
+      - name: Calculate new version
+        run: |
+          version=${LATEST_TAG#v}
+          IFS='.' read -r major minor patch <<< "$version"
+
+          if [ "${{ github.event.inputs.version_type }}" = "patch" ]; then
+            patch=$((patch+1))
+          elif [ "${{ github.event.inputs.version_type }}" = "minor" ]; then
+            minor=$((minor+1))
+            patch=0
+          elif [ "${{ github.event.inputs.version_type }}" = "major" ]; then
+            major=$((major+1))
+            minor=0
+            patch=0
+          fi
+
+          new_version="v$major.$minor.$patch"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+      - name: Create release branch
+        run: |
+          git checkout dev
+          git checkout -b release_${NEW_VERSION}
+          git push origin release_${NEW_VERSION}
+
+      - name: Create tag
+        run: |
+          git tag $NEW_VERSION
+          git push origin $NEW_VERSION
