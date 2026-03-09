@@ -1,4 +1,4 @@
-name: Create Release Branch
+name: Release with Changelog
 
 on:
   workflow_dispatch:
@@ -20,19 +20,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-      - name: Get current version
-        id: get_version
+      - name: Create version file if missing
+        run: |
+          if [ ! -f version.txt ]; then
+            echo "0.0.0" > version.txt
+          fi
+
+      - name: Read current version
+        id: version
         run: |
           VERSION=$(cat version.txt)
           echo "current=$VERSION" >> $GITHUB_OUTPUT
@@ -40,7 +45,7 @@ jobs:
       - name: Bump version
         id: bump
         run: |
-          VERSION=${{ steps.get_version.outputs.current }}
+          VERSION=${{ steps.version.outputs.current }}
           TYPE=${{ github.event.inputs.version_type }}
 
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
@@ -57,14 +62,20 @@ jobs:
           fi
 
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-
           echo $NEW_VERSION > version.txt
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Commit version update
+      - name: Generate changelog
         run: |
-          git add version.txt
-          git commit -m "Bump version to ${{ steps.bump.outputs.new_version }}"
+          echo "## v${{ steps.bump.outputs.new_version }}" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          git log --pretty=format:"- %s" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+
+      - name: Commit files
+        run: |
+          git add version.txt CHANGELOG.md
+          git commit -m "Release v${{ steps.bump.outputs.new_version }}"
 
       - name: Create release branch
         run: |
