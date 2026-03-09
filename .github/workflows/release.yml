@@ -17,15 +17,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Get latest tag
-        id: tag
+      - name: Fetch tags
+        run: git fetch --tags
+
+      - name: Get latest tag (handle first release)
+        id: get_tag
         run: |
-          git fetch --tags
-          latest=$(git describe --tags `git rev-list --tags --max-count=1`)
+          latest=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "v0.0.0")
           echo "LATEST_TAG=$latest" >> $GITHUB_ENV
+          echo "Latest tag is $latest"
 
       - name: Calculate new version
         run: |
@@ -44,7 +48,9 @@ jobs:
           fi
 
           new_version="v$major.$minor.$patch"
+
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "New version: $new_version"
 
       - name: Create release branch
         run: |
