@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: "Version bump for next sprint"
+        description: "Version bump for release"
         required: true
         type: choice
         options:
@@ -39,7 +39,7 @@ jobs:
           BRANCH=$(git rev-parse --abbrev-ref HEAD)
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
-      # ✅ Calculate sprint numbers
+      # ✅ Calculate sprint info
       - name: Calculate sprint info
         id: sprint
         run: |
@@ -59,21 +59,21 @@ jobs:
           echo "previous=$PREV_BRANCH" >> $GITHUB_OUTPUT
           echo "next=sprint$NEXT_NUM" >> $GITHUB_OUTPUT
 
-      # ✅ Ensure version file
+      # ✅ Ensure version file exists
       - name: Ensure version file
         run: |
           if [ ! -f version.txt ]; then
             echo "1.0.0" > version.txt
           fi
 
-      # ✅ Read version
+      # ✅ Read current version
       - name: Read version
         id: version
         run: |
           VERSION=$(cat version.txt)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      # ✅ Bump version for next sprint
+      # ✅ Bump version (THIS is used for release)
       - name: Bump version
         id: bump
         run: |
@@ -93,64 +93,72 @@ jobs:
             PATCH=$((PATCH+1))
           fi
 
-          echo "next_version=$MAJOR.$MINOR.$PATCH" >> $GITHUB_OUTPUT
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "next_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      # ✅ Fetch all branches (IMPORTANT)
+      # ✅ Fetch all branches
       - name: Fetch all branches
         run: git fetch --all
 
-      # ✅ Generate changelog with author
-      - name: Generate changelog (with authors)
+      # ✅ Generate changelog (ONLY current sprint commits + author)
+      - name: Generate changelog
         run: |
           CURRENT=${{ steps.sprint.outputs.current }}
           PREV=${{ steps.sprint.outputs.previous }}
+          VERSION=${{ steps.bump.outputs.next_version }}
 
-          echo "## Release v${{ steps.version.outputs.version }} - $(date)" >> CHANGELOG.md
+          echo "## Release v$VERSION - $(date)" > CHANGELOG.md
           echo "" >> CHANGELOG.md
 
           if git show-ref --verify --quiet refs/remotes/origin/$PREV; then
             echo "Comparing $PREV -> $CURRENT"
-
             git log origin/$PREV..HEAD \
               --pretty=format:"- %s (%an)" \
               >> CHANGELOG.md
           else
             echo "Previous sprint not found, using full history"
-
             git log --pretty=format:"- %s (%an)" >> CHANGELOG.md
           fi
 
           echo "" >> CHANGELOG.md
 
-      # ✅ Create release branch
+      # ✅ Create release branch with NEW version
       - name: Create release branch
         run: |
-          RELEASE="release-v${{ steps.version.outputs.version }}"
+          VERSION=${{ steps.bump.outputs.next_version }}
+          RELEASE="release-v$VERSION"
 
-          git push origin --delete $RELEASE || true
+          if git ls-remote --exit-code --heads origin $RELEASE; then
+            echo "Release branch already exists, exiting"
+            exit 1
+          fi
+
           git checkout -b $RELEASE
 
-      # ✅ Commit release branch
-      - name: Commit release
+      # ✅ Update version.txt in release branch
+      - name: Update version in release branch
         run: |
-          git add CHANGELOG.md version.txt
-          git commit -m "Release v${{ steps.version.outputs.version }}"
+          echo "${{ steps.bump.outputs.next_version }}" > version.txt
+          git add version.txt CHANGELOG.md
+          git commit -m "Release v${{ steps.bump.outputs.next_version }}"
 
       - name: Push release branch
-        run: |
-          git push origin HEAD
+        run: git push origin HEAD
 
-      # ✅ Create next sprint branch
+      # ✅ Create next sprint branch (SAFE)
       - name: Create next sprint
         run: |
           git checkout ${{ steps.sprint.outputs.current }}
-
           NEXT=${{ steps.sprint.outputs.next }}
 
-          git push origin --delete $NEXT || true
+          if git ls-remote --exit-code --heads origin $NEXT; then
+            echo "$NEXT already exists, skipping creation"
+            exit 0
+          fi
+
           git checkout -b $NEXT
 
-      # ✅ Update version for next sprint
+      # ✅ Update version.txt in next sprint
       - name: Update version for next sprint
         run: |
           echo "${{ steps.bump.outputs.next_version }}" > version.txt
@@ -158,5 +166,4 @@ jobs:
           git commit -m "Start ${{ steps.sprint.outputs.next }} with version ${{ steps.bump.outputs.next_version }}"
 
       - name: Push next sprint
-        run: |
-          git push origin HEAD
+        run: git push origin HEAD
