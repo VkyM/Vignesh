@@ -1,16 +1,19 @@
-name: Release Pipeline
+name: Sprint Release Workflow
 
 on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: "Select version increment"
+        description: "Version bump for next sprint"
         required: true
         type: choice
         options:
-          - patch
-          - minor
           - major
+          - minor
+          - patch
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -18,47 +21,142 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # ✅ Checkout current sprint branch
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --tags
-
-      - name: Get latest tag (handle first release)
-        id: get_tag
+      - name: Configure Git
         run: |
-          latest=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "v0.0.0")
-          echo "LATEST_TAG=$latest" >> $GITHUB_ENV
-          echo "Latest tag is $latest"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
-      - name: Calculate new version
+      # ✅ Get current branch
+      - name: Get current branch
+        id: branch
         run: |
-          version=${LATEST_TAG#v}
-          IFS='.' read -r major minor patch <<< "$version"
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
-          if [ "${{ github.event.inputs.version_type }}" = "patch" ]; then
-            patch=$((patch+1))
-          elif [ "${{ github.event.inputs.version_type }}" = "minor" ]; then
-            minor=$((minor+1))
-            patch=0
-          elif [ "${{ github.event.inputs.version_type }}" = "major" ]; then
-            major=$((major+1))
-            minor=0
-            patch=0
+      # ✅ Calculate sprint numbers
+      - name: Calculate sprint info
+        id: sprint
+        run: |
+          CURRENT=${{ steps.branch.outputs.branch }}
+          NUM=$(echo $CURRENT | grep -o '[0-9]*')
+
+          PREV_NUM=$((NUM - 1))
+          NEXT_NUM=$((NUM + 1))
+
+          if [ "$PREV_NUM" -le 0 ]; then
+            PREV_BRANCH="main"
+          else
+            PREV_BRANCH="sprint$PREV_NUM"
           fi
 
-          new_version="v$major.$minor.$patch"
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          echo "previous=$PREV_BRANCH" >> $GITHUB_OUTPUT
+          echo "next=sprint$NEXT_NUM" >> $GITHUB_OUTPUT
 
-          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
-          echo "New version: $new_version"
+      # ✅ Ensure version file
+      - name: Ensure version file
+        run: |
+          if [ ! -f version.txt ]; then
+            echo "1.0.0" > version.txt
+          fi
 
+      # ✅ Read version
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(cat version.txt)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      # ✅ Bump version for next sprint
+      - name: Bump version
+        id: bump
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          TYPE=${{ github.event.inputs.version_type }}
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          if [ "$TYPE" = "major" ]; then
+            MAJOR=$((MAJOR+1))
+            MINOR=0
+            PATCH=0
+          elif [ "$TYPE" = "minor" ]; then
+            MINOR=$((MINOR+1))
+            PATCH=0
+          else
+            PATCH=$((PATCH+1))
+          fi
+
+          echo "next_version=$MAJOR.$MINOR.$PATCH" >> $GITHUB_OUTPUT
+
+      # ✅ Fetch all branches (IMPORTANT)
+      - name: Fetch all branches
+        run: git fetch --all
+
+      # ✅ Generate changelog with author
+      - name: Generate changelog (with authors)
+        run: |
+          CURRENT=${{ steps.sprint.outputs.current }}
+          PREV=${{ steps.sprint.outputs.previous }}
+
+          echo "## Release v${{ steps.version.outputs.version }} - $(date)" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+
+          if git show-ref --verify --quiet refs/remotes/origin/$PREV; then
+            echo "Comparing $PREV -> $CURRENT"
+
+            git log origin/$PREV..HEAD \
+              --pretty=format:"- %s (%an)" \
+              >> CHANGELOG.md
+          else
+            echo "Previous sprint not found, using full history"
+
+            git log --pretty=format:"- %s (%an)" >> CHANGELOG.md
+          fi
+
+          echo "" >> CHANGELOG.md
+
+      # ✅ Create release branch
       - name: Create release branch
         run: |
-          git checkout dev
-          git checkout -b release_${NEW_VERSION}
-          git push origin release_${NEW_VERSION}
+          RELEASE="release-v${{ steps.version.outputs.version }}"
 
-      - name: Create tag
+          git push origin --delete $RELEASE || true
+          git checkout -b $RELEASE
+
+      # ✅ Commit release branch
+      - name: Commit release
         run: |
-          git tag $NEW_VERSION
-          git push origin $NEW_VERSION
+          git add CHANGELOG.md version.txt
+          git commit -m "Release v${{ steps.version.outputs.version }}"
+
+      - name: Push release branch
+        run: |
+          git push origin HEAD
+
+      # ✅ Create next sprint branch
+      - name: Create next sprint
+        run: |
+          git checkout ${{ steps.sprint.outputs.current }}
+
+          NEXT=${{ steps.sprint.outputs.next }}
+
+          git push origin --delete $NEXT || true
+          git checkout -b $NEXT
+
+      # ✅ Update version for next sprint
+      - name: Update version for next sprint
+        run: |
+          echo "${{ steps.bump.outputs.next_version }}" > version.txt
+          git add version.txt
+          git commit -m "Start ${{ steps.sprint.outputs.next }} with version ${{ steps.bump.outputs.next_version }}"
+
+      - name: Push next sprint
+        run: |
+          git push origin HEAD
