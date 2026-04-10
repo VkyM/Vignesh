@@ -21,6 +21,7 @@ jobs:
 
     steps:
 
+      # ✅ Checkout DEV branch with full history
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -32,18 +33,21 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
+      # ✅ Ensure version file exists
       - name: Ensure version file exists
         run: |
           if [ ! -f version.txt ]; then
             echo "0.0.0" > version.txt
           fi
 
+      # ✅ Read current version
       - name: Read current version
         id: current
         run: |
           VERSION=$(cat version.txt)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      # ✅ Calculate new version
       - name: Calculate new version
         id: bump
         run: |
@@ -66,16 +70,8 @@ jobs:
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Create release branch
-        run: |
-          BRANCH="release_v${{ steps.bump.outputs.new_version }}"
-          git checkout -b $BRANCH
-
-      - name: Update version file
-        run: |
-          echo "${{ steps.bump.outputs.new_version }}" > version.txt
-
-      - name: Generate changelog (since last tag)
+      # ✅ Generate changelog BEFORE creating branch/tag (CRITICAL FIX)
+      - name: Generate changelog
         run: |
           echo "## v${{ steps.bump.outputs.new_version }} - $(date)" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
@@ -92,15 +88,33 @@ jobs:
 
           echo "" >> CHANGELOG.md
 
+      # ✅ Create release branch safely
+      - name: Create release branch
+        run: |
+          BRANCH="release_v${{ steps.bump.outputs.new_version }}"
+
+          # Delete remote branch if exists (avoid conflict)
+          git push origin --delete $BRANCH || true
+
+          git checkout -b $BRANCH
+
+      # ✅ Update version file
+      - name: Update version file
+        run: |
+          echo "${{ steps.bump.outputs.new_version }}" > version.txt
+
+      # ✅ Commit changes
       - name: Commit release files
         run: |
           git add version.txt CHANGELOG.md
           git commit -m "Release v${{ steps.bump.outputs.new_version }}"
 
+      # ✅ Create tag AFTER changelog (important)
       - name: Create Git tag
         run: |
           git tag v${{ steps.bump.outputs.new_version }}
 
+      # ✅ Push branch + tag
       - name: Push branch and tag
         run: |
           git push origin HEAD
