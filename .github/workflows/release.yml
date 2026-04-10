@@ -71,15 +71,25 @@ jobs:
           BRANCH="release_v${{ steps.bump.outputs.new_version }}"
           git checkout -b $BRANCH
 
-      - name: Update version file in release branch
+      - name: Update version file
         run: |
           echo "${{ steps.bump.outputs.new_version }}" > version.txt
 
-      - name: Generate changelog
+      - name: Generate changelog (since last tag)
         run: |
           echo "## v${{ steps.bump.outputs.new_version }} - $(date)" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
-          git log --pretty=format:"- %s" -n 10 >> CHANGELOG.md
+
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$LAST_TAG" ]; then
+            echo "No previous tag found, using all commits"
+            git log --pretty=format:"- %s" >> CHANGELOG.md
+          else
+            echo "Using commits since $LAST_TAG"
+            git log $LAST_TAG..HEAD --pretty=format:"- %s" >> CHANGELOG.md
+          fi
+
           echo "" >> CHANGELOG.md
 
       - name: Commit release files
@@ -87,6 +97,11 @@ jobs:
           git add version.txt CHANGELOG.md
           git commit -m "Release v${{ steps.bump.outputs.new_version }}"
 
-      - name: Push release branch
+      - name: Create Git tag
+        run: |
+          git tag v${{ steps.bump.outputs.new_version }}
+
+      - name: Push branch and tag
         run: |
           git push origin HEAD
+          git push origin v${{ steps.bump.outputs.new_version }}
