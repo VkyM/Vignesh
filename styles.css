@@ -35,6 +35,209 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
 }
+/* Case study start */
+.case-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+    gap:30px;
+    margin-top:25px;
+}
+
+.case-card{
+
+    position:relative;
+
+    background:linear-gradient(145deg,#1f2937,#111827);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    overflow:hidden;
+
+    color:#fff;
+
+    transition:.4s;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.30);
+
+}
+
+.case-card:hover{
+
+    transform:translateY(-10px) scale(1.02);
+
+    box-shadow:0 30px 60px rgba(0,0,0,.45);
+
+}
+
+.case-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    height:6px;
+
+}
+
+.blue::before{
+    background:#3b82f6;
+}
+
+.green::before{
+    background:#22c55e;
+}
+
+.orange::before{
+    background:#f59e0b;
+}
+
+.case-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:34px;
+
+    background:rgba(255,255,255,.12);
+
+    margin-bottom:20px;
+
+}
+
+.case-card h3{
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
+    color:#fff;
+
+}
+
+.case-row{
+
+    margin-bottom:18px;
+
+}
+
+.case-row h4{
+
+    display:inline-block;
+
+    padding:6px 14px;
+
+    border-radius:25px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-size:13px;
+
+    margin-bottom:10px;
+
+}
+
+.green .case-row h4{
+    background:#16a34a;
+}
+
+.orange .case-row h4{
+    background:#ea580c;
+}
+
+.case-row p{
+
+    color:#d6dce7;
+
+    line-height:1.7;
+
+    font-size:15px;
+
+}
+
+.case-tags{
+
+    margin-top:20px;
+
+}
+
+.case-tags span{
+
+    display:inline-block;
+
+    margin:6px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:#334155;
+
+    color:#fff;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.case-card:hover .case-tags span{
+
+    background:#2563eb;
+
+}
+
+.case-btn{
+
+    display:inline-block;
+
+    margin-top:25px;
+
+    padding:12px 22px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.case-btn:hover{
+
+    background:#1d4ed8;
+
+}
+/* Case study end */
+
+
+
 
 /* Geometric Pattern Background */
 .geometric-pattern {
